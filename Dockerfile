@@ -6,7 +6,6 @@ ADD go.mod .
 RUN go mod download
 
 ADD . .
-RUN go build -o bin/db ./cmd/db
 RUN go run ./cmd/build
 
 FROM alpine
@@ -15,6 +14,5 @@ WORKDIR /bin/
 
 # Copying binaries
 COPY --from=builder /src/app/bin/app .
-COPY --from=builder /src/app/bin/db .
 
 CMD /bin/app
