@@ -11,6 +11,7 @@ import (
 	"github.com/leapkit/core/render"
 	"github.com/leapkit/core/server"
 	"github.com/leapkit/core/session"
+	"github.com/leapkit/template/internal/dictionary"
 	"github.com/leapkit/template/internal/home"
 	"github.com/leapkit/template/public"
 	"github.com/paganotoni/tailo"
@@ -45,12 +46,12 @@ var (
 	}
 
 	// DatabaseURL to connect and interact with our database instance.
-	DatabaseURL = cmp.Or(os.Getenv("DATABASE_URL"), "leapkit.db")
+	DatabaseURL = cmp.Or(os.Getenv("DATABASE_URL"), "postgres://postgres:postgres@localhost:5432/gonf?sslmode=disable")
 
 	// DB is the database connection builder function
 	// that will be used by the application based on the driver and
 	// connection string.
-	DB = db.ConnectionFn(DatabaseURL, db.WithDriver("sqlite3"))
+	DB = db.ConnectionFn(DatabaseURL, db.WithDriver("postgres"))
 )
 
 // AddRoutes mounts the routes for the application,
@@ -74,6 +75,8 @@ func AddRoutes(r server.Router) error {
 	))
 
 	r.HandleFunc("GET /{$}", home.Index)
+
+	r.HandleFunc("GET /words/{$}", dictionary.RandomWord)
 
 	// Mounting the assets manager at the end of the routes
 	// so that it can serve the public assets.

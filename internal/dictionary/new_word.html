@@ -1,0 +1,19 @@
+<div
+    class="text-center content-center transition-opacity"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <!--
+    1. We click the link to get a random word.
+    2. We get a random word from a few API calls.
+    3. We load the word in the title.
+    4. We load the meaning in a box under the title.
+    5. We move the link to get a new word to be underneath the meaning of the word
+    -->
+    <h1 id="word-result" class="font-bold text-6xl pb-2 capitalize">
+        <%= res.Word %>
+    </h1>
+    <p class="capitalize mb-10"><%= res.Results.AllDefinitions() %></p>
+
+    <a href="/words/">Give me another one!</a>
+</div>
